@@ -16,7 +16,7 @@ const Layout: React.FC = () => {
     const { isSocketConnected, subscribe, unsubscribe } = useContext(SocketContext);
     
     useEffect(() => {
-      const { CHECK_IF_LOGGED_IN_RESULT } = events;
+      const { CHECK_IF_LOGGED_IN_RESULT, LEAVE_ROOM_RESPONSE } = events;
 
       subscribe(CHECK_IF_LOGGED_IN_RESULT, (result: { loggedIn: boolean, room: Room | null}) => {
         setIsRegisted(result.loggedIn);
@@ -24,7 +24,10 @@ const Layout: React.FC = () => {
         setIsCheckingRegister(false);
       });
 
-      return () => unsubscribe(CHECK_IF_LOGGED_IN_RESULT);
+      return () => { 
+        unsubscribe(CHECK_IF_LOGGED_IN_RESULT);
+        unsubscribe(LEAVE_ROOM_RESPONSE);
+      }
     }, [isSocketConnected, subscribe, unsubscribe]);
 
     return (
@@ -32,7 +35,7 @@ const Layout: React.FC = () => {
         {isSocketConnected && !isCheckingRegister 
             ? isRegisted 
               ? !!room
-                ? <RoomComponent id={room.id} number={room.number} initialPlayers={room.players} /> 
+                ? <RoomComponent id={room.id} number={room.number} initialPlayers={room.players} onExitRoom={() => setRoom(null)} /> 
                 : <Lobby onEnterRoom={(roomEntered: Room) => setRoom(roomEntered)} />  
               : <Register onRegister={() => setIsRegisted(true)} /> 
             : <Loading />

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import SocketContext from '../../socketProvider/SocketContext';
 //MaterialUI
 import Paper from '@material-ui/core/Paper';
@@ -8,39 +8,68 @@ import Grid from '@material-ui/core/Grid';
 //Assets
 import { events } from '../../socketProvider/assets/events';
 import { roomStyles } from './assets/styles';
+import { Button } from '@material-ui/core';
 
 interface Props {
     id: string;
     number: number;
     initialPlayers: Array<string>;
+    onExitRoom: () => void;
 }
 
 const Room: React.FC<Props> = ({
     id,
     number,
-    initialPlayers
+    initialPlayers,
+    onExitRoom
 }) => {
     const classes = roomStyles();
     
     const [players, setPlayers]= useState(initialPlayers);
 
-    const { subscribe, unsubscribe } = useContext(SocketContext);
+    const { emit, subscribe, unsubscribe } = useContext(SocketContext);
 
     useEffect(() => {
-        const { NEW_PLAYER_JOINED } = events;
+        const { NEW_PLAYER_JOINED, PLAYER_LEFT, LEAVE_ROOM_RESPONSE } = events;
 
         subscribe(NEW_PLAYER_JOINED, (username: string) => {
             setPlayers(p => [...p, username]);
         });
 
-        return () => unsubscribe(NEW_PLAYER_JOINED);
-    }, [subscribe, unsubscribe]);
+        subscribe(PLAYER_LEFT, (username: string) => {
+            setPlayers(p => p.filter(player => player !== username));
+        });
+
+        subscribe(LEAVE_ROOM_RESPONSE, () => onExitRoom());
+
+        return () => {
+            unsubscribe(NEW_PLAYER_JOINED);
+            unsubscribe(PLAYER_LEFT);
+        }
+    }, [subscribe, unsubscribe, onExitRoom]);
+
+    const handleLeaveRoom = useCallback(() => {
+        emit(events.LEAVE_ROOM, id);
+    }, [emit, id]); 
 
     return (
         <Container component="main" maxWidth="lg">
             <Paper className={classes.paper}>
-                <Typography variant={"h4"}>Room #{number}</Typography>
                 <Grid container>
+                    <Grid item xs={11}>
+                        <Typography variant={"h4"}>Room #{number}</Typography>        
+                    </Grid>
+                    <Grid item xs={1}>
+                        <Button
+                            type="button"
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                            onClick={handleLeaveRoom}
+                        >
+                            Exit
+                        </Button>
+                    </Grid>
                     <Grid item xs={12}>
                         <Typography variant={"h6"}>{players[1]}</Typography>
                     </Grid>

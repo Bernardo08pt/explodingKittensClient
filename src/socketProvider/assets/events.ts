@@ -9,5 +9,8 @@ export const events = {
     NEW_PLAYER_JOINED: "newPlayerJoined",
     NEW_ROOM_CREATED: "newRoomCreated",
     CHECK_IF_LOGGED_IN: "checkIfLoggedIn",
-    CHECK_IF_LOGGED_IN_RESULT: "checkIfLoggedInResult"
+    CHECK_IF_LOGGED_IN_RESULT: "checkIfLoggedInResult",
+    LEAVE_ROOM: "leaveRoom",
+    LEAVE_ROOM_RESPONSE: "leaveRoomResponse",
+    PLAYER_LEFT: "playerLeft"
 }

@@ -29,7 +29,7 @@ const Lobby: React.FC<Props> = ({
     const { emit, subscribe, unsubscribe } = useContext(SocketContext);
 
     useEffect(() => {
-        const { GET_ROOMS, GET_ROOMS_RESPONSE, ENTER_ROOM_RESPONSE, NEW_ROOM_CREATED } = events;
+        const { GET_ROOMS, GET_ROOMS_RESPONSE, ENTER_ROOM_RESPONSE, LEAVE_ROOM_RESPONSE, NEW_ROOM_CREATED } = events;
 
         emit(GET_ROOMS);
 
@@ -44,14 +44,13 @@ const Lobby: React.FC<Props> = ({
                 setError(true);
             }
         });
-
-        subscribe(NEW_ROOM_CREATED, (room: Room) => 
-            setRooms(r => [...r, room])
-        );
+       
+        subscribe(NEW_ROOM_CREATED, (room: Room) => setRooms(r => [...r, room]));
 
         return () => {
             unsubscribe(GET_ROOMS_RESPONSE);
             unsubscribe(ENTER_ROOM_RESPONSE);
+            unsubscribe(LEAVE_ROOM_RESPONSE);
             unsubscribe(NEW_ROOM_CREATED);
         }
     }, [subscribe, unsubscribe, emit, onEnterRoom]);
@@ -82,7 +81,7 @@ const Lobby: React.FC<Props> = ({
                         </ListItem>
                     )}
                 </List>
-                <Box  className={classes.buttonContainer}>
+                <Box className={classes.buttonContainer}>
                     <Button
                         type="button"
                         variant="contained"
