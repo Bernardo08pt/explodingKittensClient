@@ -17,7 +17,7 @@ export const SocketProvider: React.FC = ({ children }) => {
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
 
   useEffect(() => {
-    const newSocket = socketIOClient("https://protected-hollows-69000.herokuapp.com");
+    const newSocket = socketIOClient(process.env.API_URL ?? "http://localhost:4000");
 
     newSocket.on("connected", () => {
         setSocket(newSocket);
