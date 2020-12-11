@@ -17,7 +17,7 @@ export const SocketProvider: React.FC = ({ children }) => {
   const [socket, setSocket] = useState<SocketIOClient.Socket | null>(null);
 
   useEffect(() => {
-    const newSocket = socketIOClient(process.env.API_URL ?? "http://localhost:4000");
+    const newSocket = socketIOClient(process.env.REACT_APP_API_URL ?? "http://localhost:4000");
 
     newSocket.on("connected", () => {
         setSocket(newSocket);
