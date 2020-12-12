@@ -5,10 +5,14 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+//Components
+import GameArea from '../../components/Game/GameArea';
 //Assets
 import { events } from '../../socketProvider/assets/events';
 import { roomStyles } from './assets/styles';
-import { Button } from '@material-ui/core';
+//Utils
+import { reorderArrayFromPosition } from '../../utils/helperFunctions';
 
 interface Props {
     id: string;
@@ -25,9 +29,9 @@ const Room: React.FC<Props> = ({
 }) => {
     const classes = roomStyles();
     
-    const [players, setPlayers]= useState(initialPlayers);
-
-    const { emit, subscribe, unsubscribe } = useContext(SocketContext);
+    const { emit, subscribe, unsubscribe, user } = useContext(SocketContext);
+    
+    const [players, setPlayers] = useState(reorderArrayFromPosition(initialPlayers, initialPlayers.findIndex(player => player === user)));
 
     useEffect(() => {
         const { NEW_PLAYER_JOINED, PLAYER_LEFT, LEAVE_ROOM_RESPONSE } = events;
@@ -71,13 +75,9 @@ const Room: React.FC<Props> = ({
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
-                        <Typography variant={"h6"}>{players[1]}</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant={"h6"}>{players[2]}</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant={"h6"}>{players[0]}</Typography>
+                        <GameArea 
+                            players={players}    
+                        />
                     </Grid>
                 </Grid>
             </Paper>

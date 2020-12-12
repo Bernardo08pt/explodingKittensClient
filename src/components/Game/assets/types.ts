@@ -1,0 +1,1 @@
+export type PlayerPosition = "top" | "left" | "bottom" | "right";

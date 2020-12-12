@@ -4,7 +4,7 @@ export const roomStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(2),
       padding: "10px",
-      height: "500px"
+      minHeight: "500px"
     },
     title: {
       textAlign: "center"

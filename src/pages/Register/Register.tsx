@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
-import Cookies from 'js-cookie';
 import SocketContext from '../../socketProvider/SocketContext';
 //MaterialUI
 import Button from '@material-ui/core/Button';
@@ -23,12 +22,12 @@ const Register: React.FC<Props> = ({
     const [username, setUsername] = useState("");
     const [error, setError] = useState(false);
 
-    const { emit, subscribe, unsubscribe } = useContext(SocketContext);
+    const { emit, subscribe, unsubscribe, saveUser } = useContext(SocketContext);
 
     useEffect(() => {
         subscribe(events.REGISTER_RESULT, (usernameData: null | string) => {
             if (usernameData) {
-                Cookies.set("user", usernameData);
+                saveUser(usernameData);
                 onRegister();
             } else {
                 setError(true);
@@ -36,7 +35,7 @@ const Register: React.FC<Props> = ({
         });
 
         return () => unsubscribe(events.REGISTER_RESULT);
-    }, [subscribe, unsubscribe, onRegister]);
+    }, [subscribe, unsubscribe, onRegister, saveUser]);
 
     const handleSubmitUsername = useCallback(() => {
         emit(events.REGISTER, { "username": username });

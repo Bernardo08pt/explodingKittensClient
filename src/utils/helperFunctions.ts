@@ -1,0 +1,1 @@
+export const reorderArrayFromPosition = (array: Array<any>, index: number) => array.slice(index).concat(array.slice(0, index));
