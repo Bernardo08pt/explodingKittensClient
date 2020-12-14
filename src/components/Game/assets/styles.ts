@@ -13,7 +13,7 @@ export const gameAreaStyles = makeStyles((theme) => ({
   }   
 }));
 
-export const playerAreaHorizontalStyles = makeStyles((theme) => ({
+export const playerAreaStyles = makeStyles((theme) => ({
     title: {
       textAlign: "center",
       marginBottom: "5px"
@@ -23,13 +23,4 @@ export const playerAreaHorizontalStyles = makeStyles((theme) => ({
       alignItems: "center",
       justifyContent: "center"
     }
-}));
-
-export const playerAreaVerticalStyles = makeStyles((theme) => ({
-  column: {
-    height: "100%", 
-    flexDirection: "column", 
-    display: "flex", 
-    justifyContent: "center"
-  }
 }));

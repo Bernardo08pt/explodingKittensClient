@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 //Assets
 import { events } from '../../socketProvider/assets/events';
 import { lobbyStyles } from './assets/styles';
-import { Room } from './assets/types';
+import { Room } from '../Room/assets/types';
 
 interface Props {
     onEnterRoom: (room: Room) => void; 
@@ -55,13 +55,13 @@ const Lobby: React.FC<Props> = ({
         }
     }, [subscribe, unsubscribe, emit, onEnterRoom]);
 
-    const handleCreateNewGame = useCallback(() => {
-        emit(events.CREATE_ROOM);
-    }, [emit]);
+    const handleCreateNewGame = useCallback(() => 
+        emit(events.CREATE_ROOM)
+    , [emit]);
 
-    const handleEnterRoom = useCallback((roomId: string) => {
-        emit(events.ENTER_ROOM, roomId);
-    }, [emit]);
+    const handleEnterRoom = useCallback((roomId: string) => 
+        emit(events.ENTER_ROOM, roomId)
+    , [emit]);
 
     return (
         <Container component="main" maxWidth="md">
@@ -76,7 +76,7 @@ const Lobby: React.FC<Props> = ({
                         >
                             <ListItemText 
                                 primary={`Room #${room.number}`} 
-                                secondary={room.id}
+                                secondary={`Player number ${room.players.length}/${room.maxPlayers}`}
                             />
                         </ListItem>
                     )}

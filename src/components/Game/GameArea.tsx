@@ -1,40 +1,62 @@
-import React from 'react';
+import React, { useContext, useMemo, useState } from 'react';
+import SocketContext from '../../socketProvider/SocketContext';
 //MaterialUI
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 //Components
-import PlayerArea from './PlayerArea/PlayerArea';
+import PlayerArea from './PlayerArea';
 import PlayingCard from './PlayingCard';
 //Assets
 import { gameAreaStyles } from './assets/styles';
+import { GameState } from './assets/types';
+import { reorderArrayFromPosition } from '../../utils/helperFunctions';
+import OpponentArea from './OpponentArea';
+import { Typography } from '@material-ui/core';
 
 interface Props {
-    players: Array<string>;
+    initialGameState: GameState;
 }
 
 const GameArea: React.FC<Props> = ({
-    players
+    initialGameState
 }) => {
     const classes = gameAreaStyles();
+
+    const { user } = useContext(SocketContext);
+
+    const [gameState] = useState<GameState>(initialGameState);
+    const playerSitOrder = useMemo(() => 
+        reorderArrayFromPosition(gameState.players, gameState.players.findIndex(player => player.username === user))
+    , [gameState, user]);
 
     return (
         <Grid container>
             <Grid item xs={12} className={classes.playerArea}>
-                { players[2] && <PlayerArea player={players[2]} position="top" /> }
+                { playerSitOrder[2] && 
+                    <OpponentArea player={playerSitOrder[2]} /> 
+                }
             </Grid>
             <Grid item xs={3} className={classes.playerArea}>
-                { players[1] && <PlayerArea player={players[1]} position="left" /> }
+                { playerSitOrder[1] && 
+                    <OpponentArea player={playerSitOrder[1]} /> 
+                }
             </Grid>
             <Grid item xs={6} >
                 <Box className={classes.deckArea}>
-                    <PlayingCard />
+                    <PlayingCard >
+                        <Typography variant={"h6"}>{gameState.cardsRemaining}</Typography>
+                    </PlayingCard>
                 </Box>
             </Grid>
             <Grid item xs={3} className={classes.playerArea}>
-                { players[3] && <PlayerArea player={players[3]} position="right" /> }
+                { playerSitOrder[3] && 
+                    <OpponentArea player={playerSitOrder[3]} /> 
+                }
             </Grid>
-            <Grid item xs={12}>
-                <PlayerArea player={players[0]} position="bottom" />
+            <Grid item xs={12} className={classes.playerArea}>
+                { playerSitOrder[0] && 
+                    <PlayerArea player={playerSitOrder[0]} /> 
+                }
             </Grid>
         </Grid>
     )

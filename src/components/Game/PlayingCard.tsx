@@ -8,11 +8,13 @@ interface Props {
 }
 
 const PlayingCard: React.FC<Props> = ({
-    horizontal
+    horizontal,
+    children
 }) => {
     return (
         <Card style={{width: horizontal ? "75px" : "50px", height: horizontal ? "50px" : "75px", backgroundColor: "lightblue", margin: "5px"}}>
             <CardContent>
+                { children }
             </CardContent>
         </Card>
     )

@@ -12,5 +12,7 @@ export const events = {
     CHECK_IF_LOGGED_IN_RESULT: "checkIfLoggedInResult",
     LEAVE_ROOM: "leaveRoom",
     LEAVE_ROOM_RESPONSE: "leaveRoomResponse",
-    PLAYER_LEFT: "playerLeft"
+    PLAYER_LEFT: "playerLeft",
+    START_GAME: "startGame",
+    START_GAME_RESPONSE: "startGameResponse"
 }

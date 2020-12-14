@@ -8,5 +8,16 @@ export const roomStyles = makeStyles((theme) => ({
     },
     title: {
       textAlign: "center"
-    }
+    },
+    roomActionsContainer: {
+      display: "flex", 
+      justifyContent: "flex-end"
+    },
+    startButton: {
+      width: "150px",
+      marginRight: "5px"
+    }, 
+    endButton: {
+      width: "150px"
+    } 
 }));

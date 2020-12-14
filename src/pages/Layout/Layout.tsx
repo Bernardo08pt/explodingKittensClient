@@ -6,7 +6,7 @@ import Lobby from '../Lobby/Lobby';
 import Loading from '../../components/Loading/Loading';
 //Assets
 import { events } from "../../socketProvider/assets/events";
-import { Room } from '../Lobby/assets/types';
+import { Room } from '../Room/assets/types';
 import RoomComponent from '../Room/Room';
 
 const Layout: React.FC = () => {
@@ -35,7 +35,14 @@ const Layout: React.FC = () => {
         {isSocketConnected && !isCheckingRegister 
             ? isRegisted 
               ? !!room
-                ? <RoomComponent id={room.id} number={room.number} initialPlayers={room.players} onExitRoom={() => setRoom(null)} /> 
+                ? <RoomComponent 
+                    id={room.id} 
+                    number={room.number} 
+                    initialPlayers={room.players}
+                    initialGameState={room.game}
+                    owner={room.owner}
+                    onExitRoom={() => setRoom(null)} 
+                  /> 
                 : <Lobby onEnterRoom={(roomEntered: Room) => setRoom(roomEntered)} />  
               : <Register onRegister={() => setIsRegisted(true)} /> 
             : <Loading />
