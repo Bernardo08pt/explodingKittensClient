@@ -14,5 +14,9 @@ export const events = {
     LEAVE_ROOM_RESPONSE: "leaveRoomResponse",
     PLAYER_LEFT: "playerLeft",
     START_GAME: "startGame",
-    START_GAME_RESPONSE: "startGameResponse"
+    START_GAME_RESPONSE: "startGameResponse",
+    GET_CARDS: "getCards",
+    GET_CARDS_RESPONSE: "getCardsResponse",
+    UPDATE_GAME_STATE: "updateGameState",
+    DRAW_CARD: "drawCard"
 }

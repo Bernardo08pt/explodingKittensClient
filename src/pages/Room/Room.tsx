@@ -9,11 +9,11 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 //Components
 import GameArea from '../../components/Game/GameArea';
+//Utils
+import { reorderArrayFromPosition } from '../../utils/helperFunctions';
 //Assets
 import { events } from '../../socketProvider/assets/events';
 import { roomStyles } from './assets/styles';
-//Utils
-import { reorderArrayFromPosition } from '../../utils/helperFunctions';
 import { GameState } from '../../components/Game/assets/types';
 
 interface Props {
@@ -96,7 +96,10 @@ const Room: React.FC<Props> = ({
                     </Grid>
                     <Grid item xs={12}>
                         {!!gameState 
-                            ? <GameArea initialGameState={gameState} />
+                            ?   <GameArea
+                                    roomId={id} 
+                                    initialGameState={gameState} 
+                                />
                             : players.map((player, index) => <Typography key={index}>{ player }</Typography>)
                         }
                     </Grid>

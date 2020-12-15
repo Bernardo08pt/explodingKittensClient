@@ -11,7 +11,23 @@ export interface Player {
     isAlive: boolean;
 }
 
-interface Card {
+type CardType = 
+    "defuse"
+    | "explosive"
+    | "seeTheFuture"
+    | "shuffle"
+    | "favor"
+    | "nope"
+    | "skip"
+    | "attack"
+    | "tacoCat"
+    | "catermelon"
+    | "hairyPotatoCat"
+    | "beardCat"
+    | "rainbowCat";
+
+export interface Card {
     name: string;
-    effect: string;
+    type: CardType;
 }
+
