@@ -13,7 +13,7 @@ const PlayingCard: React.FC<Props> = ({
 }) => {
     return (
         <Card style={{width: horizontal ? "75px" : "50px", height: horizontal ? "50px" : "75px", backgroundColor: "lightblue", margin: "5px"}}>
-            <CardContent>
+            <CardContent style={{padding: 0}}>
                 { children }
             </CardContent>
         </Card>

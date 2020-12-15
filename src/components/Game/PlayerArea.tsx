@@ -10,6 +10,7 @@ import { Player } from './assets/types';
 import { playerAreaStyles } from './assets/styles';
 import { events } from '../../socketProvider/assets/events';
 import { Card } from './assets/types';
+import Shuffle from '../../assets/images/cards/shuffle.jpeg';
 
 interface Props {
     player: Player;
@@ -45,14 +46,20 @@ const PlayerArea: React.FC<Props> = ({
             <Grid item xs={12} className={classes.cardTray}> 
                 { cards.slice(0, Math.floor(cards.length / 2)).map((card, index) => 
                     <PlayingCard key={index}>
-                        <Typography variant={"body1"}>{card.name}</Typography>
+                        {card.type === "shuffle" 
+                            ? <img alt={card.name} style={{width: "50px", height: "75px"}} src={Shuffle} />
+                            : <Typography variant={"body1"}>{card.name}</Typography>
+                        }
                     </PlayingCard>) 
                 }
             </Grid>
             <Grid item xs={12} className={classes.cardTray}> 
                 { cards.slice(Math.floor(cards.length / 2)).map((card, index) => 
                     <PlayingCard key={index}>
-                        <Typography variant={"body1"}>{card.name}</Typography>
+                        {card.type === "shuffle" 
+                            ? <img alt={card.name} style={{width: "50px", height: "75px"}} src={Shuffle} />
+                            : <Typography variant={"body1"}>{card.name}</Typography>
+                        }
                     </PlayingCard>) 
                 }
             </Grid>
