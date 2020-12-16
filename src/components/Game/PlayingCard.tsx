@@ -2,19 +2,34 @@ import React from 'react';
 //MaterialUI
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+//Images
+import Shuffle from '../../assets/images/cards/shuffle.jpeg';
+//Assets
+import { cardStyles } from "./assets/styles"
+import { Card as CardType } from './assets/types';
 
 interface Props {
-    horizontal?: boolean;
+    card: CardType;
+    onClick?: (card: CardType) => void;
 }
 
 const PlayingCard: React.FC<Props> = ({
-    horizontal,
-    children
+    card,
+    onClick
 }) => {
+    const classes = cardStyles();
+
     return (
-        <Card style={{width: horizontal ? "75px" : "50px", height: horizontal ? "50px" : "75px", backgroundColor: "lightblue", margin: "5px"}}>
-            <CardContent style={{padding: 0}}>
-                { children }
+        <Card 
+            className={classes.container}
+            onClick={() => onClick && onClick(card)}
+        >
+            <CardContent className={classes.content}>
+                { card.type === "shuffle" 
+                    ? <img alt={card.name} className={classes.image} src={Shuffle} />
+                    : <Typography variant={"body1"}>{card.name}</Typography>
+                }
             </CardContent>
         </Card>
     )

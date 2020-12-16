@@ -18,5 +18,6 @@ export const events = {
     GET_CARDS: "getCards",
     GET_CARDS_RESPONSE: "getCardsResponse",
     UPDATE_GAME_STATE: "updateGameState",
-    DRAW_CARD: "drawCard"
+    DRAW_CARD: "drawCard",
+    PLAY_CARD: "playCard",
 }

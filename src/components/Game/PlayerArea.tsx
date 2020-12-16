@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import SocketContext from '../../socketProvider/SocketContext';
 //MaterialUI
 import Grid from '@material-ui/core/Grid';
@@ -10,16 +10,19 @@ import { Player } from './assets/types';
 import { playerAreaStyles } from './assets/styles';
 import { events } from '../../socketProvider/assets/events';
 import { Card } from './assets/types';
-import Shuffle from '../../assets/images/cards/shuffle.jpeg';
 
 interface Props {
     player: Player;
     roomId: string;
+    isPlaying: boolean;
+    onPlayCard: (card: Card) => void;
 }
 
 const PlayerArea: React.FC<Props> = ({
     player,
-    roomId
+    roomId,
+    isPlaying,
+    onPlayCard
 }) => {
     const classes = playerAreaStyles();
     const { emit, subscribe, unsubscribe } = useContext(SocketContext);
@@ -27,7 +30,7 @@ const PlayerArea: React.FC<Props> = ({
 
     const [cards, setCards] = useState<Array<Card>>([]);
 
-    // const halfPoint = Math.floor(cards / 2);
+    const halfPoint = useMemo(() => Math.floor(cards.length / 2), [cards]);
 
     useEffect(() => {
         const { GET_CARDS, GET_CARDS_RESPONSE } = events;
@@ -42,26 +45,24 @@ const PlayerArea: React.FC<Props> = ({
     }, [subscribe, unsubscribe, emit, roomId, player]); 
 
     return (
-        <Grid container>
+        <Grid container className={isPlaying ? classes.playing : ""}>
             <Grid item xs={12} className={classes.cardTray}> 
-                { cards.slice(0, Math.floor(cards.length / 2)).map((card, index) => 
-                    <PlayingCard key={index}>
-                        {card.type === "shuffle" 
-                            ? <img alt={card.name} style={{width: "50px", height: "75px"}} src={Shuffle} />
-                            : <Typography variant={"body1"}>{card.name}</Typography>
-                        }
-                    </PlayingCard>) 
-                }
+                { cards.slice(0, halfPoint).map((card, index) => 
+                    <PlayingCard 
+                        key={index}
+                        card={card}
+                        onClick={onPlayCard}
+                    />
+                )}
             </Grid>
             <Grid item xs={12} className={classes.cardTray}> 
-                { cards.slice(Math.floor(cards.length / 2)).map((card, index) => 
-                    <PlayingCard key={index}>
-                        {card.type === "shuffle" 
-                            ? <img alt={card.name} style={{width: "50px", height: "75px"}} src={Shuffle} />
-                            : <Typography variant={"body1"}>{card.name}</Typography>
-                        }
-                    </PlayingCard>) 
-                }
+                { cards.slice(halfPoint).map((card, index) => 
+                    <PlayingCard 
+                        key={index}
+                        card={card}
+                        onClick={onPlayCard}
+                    />
+                )}
             </Grid>
             <Grid item xs={12} className={classes.title}>
                 <Typography variant={"h6"}>{username}</Typography>

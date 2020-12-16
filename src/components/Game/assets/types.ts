@@ -11,7 +11,7 @@ export interface Player {
     isAlive: boolean;
 }
 
-type CardType = 
+export type CardType = 
     "defuse"
     | "explosive"
     | "seeTheFuture"

@@ -3,16 +3,18 @@ import SocketContext from '../../socketProvider/SocketContext';
 //MaterialUI
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 //Components
 import PlayerArea from './PlayerArea';
-import PlayingCard from './PlayingCard';
 import OpponentArea from './OpponentArea';
+import FacedownCard from './FacedownCard';
 //Assets
 import { gameAreaStyles } from './assets/styles';
 import { GameState, Player } from './assets/types';
 import { reorderArrayFromPosition } from '../../utils/helperFunctions';
 import { events } from '../../socketProvider/assets/events';
+import { Card as CardType } from './assets/types';
+import PlayingCard from './PlayingCard';
 
 interface Props {
     roomId: string;
@@ -32,6 +34,8 @@ const GameArea: React.FC<Props> = ({
     const playerSitOrder: Player[] = useMemo(() => 
         reorderArrayFromPosition(gameState.players, gameState.players.findIndex(player => player.username === user))
     , [gameState, user]);
+    
+    const youArePlaying = useMemo(() => gameState.playerTurn === user, [gameState, user]);
 
     useEffect(() => {
         const { UPDATE_GAME_STATE } = events;
@@ -44,33 +48,57 @@ const GameArea: React.FC<Props> = ({
     }, [subscribe, unsubscribe]);
 
     const handleDrawCard = useCallback(() => {
-        if (gameState.playerTurn === user) {
+        if (youArePlaying) {
             emit(events.DRAW_CARD, roomId);
         }
-    }, [gameState, user, emit, roomId])
+    }, [emit, roomId, youArePlaying]);
+
+    const handlePlayCard = useCallback((card: CardType) => {
+        if (!youArePlaying) {
+            return;
+        }
+
+        emit(events.PLAY_CARD, {card, roomId});
+    }, [youArePlaying, emit, roomId]);
 
     return (
         <Grid container>
+            <Grid item xs={12}>
+                <SnackbarContent 
+                    style={{marginTop: "10px", justifyContent: "center", fontWeight: "bold"}}
+                    message={`It's ${youArePlaying ? "your" : gameState.playerTurn} time to play`}  
+                />
+            </Grid>
             <Grid item xs={12} className={classes.playerArea}>
                 { playerSitOrder[2] && 
-                    <OpponentArea player={playerSitOrder[2]} /> 
+                    <OpponentArea 
+                        player={playerSitOrder[2]} 
+                        isPlaying={playerSitOrder[2].username === gameState.playerTurn}
+                    /> 
                 }
             </Grid>
             <Grid item xs={3} className={classes.playerArea}>
                 { playerSitOrder[1] && 
-                    <OpponentArea player={playerSitOrder[1]} /> 
+                    <OpponentArea 
+                        player={playerSitOrder[1]} 
+                        isPlaying={playerSitOrder[1].username === gameState.playerTurn}
+                    /> 
                 }
             </Grid>
             <Grid item xs={6} >
                 <Box className={classes.deckArea} onClick={handleDrawCard}>
-                    <PlayingCard>
-                        <Typography variant={"h6"}>{gameState.cardsRemaining}</Typography>
-                    </PlayingCard>
+                    {gameState.discardPile.length > 0 && 
+                        <PlayingCard card={gameState.discardPile[gameState.discardPile.length - 1]} />
+                    }
+                    <FacedownCard cards={gameState.cardsRemaining} />
                 </Box>
             </Grid>
             <Grid item xs={3} className={classes.playerArea}>
                 { playerSitOrder[3] && 
-                    <OpponentArea player={playerSitOrder[3]} /> 
+                    <OpponentArea 
+                        player={playerSitOrder[3]} 
+                        isPlaying={playerSitOrder[3].username === gameState.playerTurn}
+                    /> 
                 }
             </Grid>
             <Grid item xs={12} className={classes.playerArea}>
@@ -78,6 +106,8 @@ const GameArea: React.FC<Props> = ({
                     <PlayerArea 
                         roomId={roomId}
                         player={playerSitOrder[0]} 
+                        isPlaying={youArePlaying}
+                        onPlayCard={handlePlayCard}
                     /> 
                 }
             </Grid>
