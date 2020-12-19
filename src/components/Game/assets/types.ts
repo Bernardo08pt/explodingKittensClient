@@ -27,6 +27,7 @@ export type CardType =
     | "rainbowCat";
 
 export interface Card {
+    id: number;
     name: string;
     type: CardType;
 }

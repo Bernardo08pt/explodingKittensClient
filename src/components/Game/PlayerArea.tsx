@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SocketContext from '../../socketProvider/SocketContext';
 //MaterialUI
 import Grid from '@material-ui/core/Grid';
@@ -30,8 +30,6 @@ const PlayerArea: React.FC<Props> = ({
 
     const [cards, setCards] = useState<Array<Card>>([]);
 
-    const halfPoint = useMemo(() => Math.floor(cards.length / 2), [cards]);
-
     useEffect(() => {
         const { GET_CARDS, GET_CARDS_RESPONSE } = events;
 
@@ -47,16 +45,7 @@ const PlayerArea: React.FC<Props> = ({
     return (
         <Grid container className={isPlaying ? classes.playing : ""}>
             <Grid item xs={12} className={classes.cardTray}> 
-                { cards.slice(0, halfPoint).map((card, index) => 
-                    <PlayingCard 
-                        key={index}
-                        card={card}
-                        onClick={onPlayCard}
-                    />
-                )}
-            </Grid>
-            <Grid item xs={12} className={classes.cardTray}> 
-                { cards.slice(halfPoint).map((card, index) => 
+                { cards.map((card, index) => 
                     <PlayingCard 
                         key={index}
                         card={card}

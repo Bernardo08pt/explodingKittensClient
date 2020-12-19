@@ -24,7 +24,8 @@ export const playerAreaStyles = makeStyles((theme) => ({
     justifyContent: "center"
   }, 
   playing: {
-    color: "red"
+    color: "red",
+    fontWeight: "bold"
   }
 }));
 
