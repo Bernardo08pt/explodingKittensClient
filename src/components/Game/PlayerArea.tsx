@@ -46,6 +46,10 @@ const PlayerArea: React.FC<Props> = ({
 
     return (
         <Grid container className={isPlaying ? classes.playing : ""}>
+              <Grid item xs={12} className={classes.title}>
+                <Typography variant={"h6"}>{username}</Typography>
+                <Typography variant={"h6"}>{`Number of turns remaining: ${isPlaying ? numberOfTurns : 0}`}</Typography>
+            </Grid>
             <Grid item xs={12} className={classes.cardTray}> 
                 { cards.map((card, index) => 
                     <PlayingCard 
@@ -55,10 +59,7 @@ const PlayerArea: React.FC<Props> = ({
                     />
                 )}
             </Grid>
-            <Grid item xs={12} className={classes.title}>
-                <Typography variant={"h6"}>{username}</Typography>
-                <Typography variant={"h6"}>{`Number of turns remaining: ${isPlaying ? numberOfTurns : 0}`}</Typography>
-            </Grid>
+          
         </Grid>
     )
 }

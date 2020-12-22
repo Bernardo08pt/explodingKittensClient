@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const gameAreaStyles = makeStyles((theme) => ({
   deckArea: {
     height: "100%", 
-    flexDirection: "row", 
+    flexDirection: "column", 
     display: "flex", 
     alignItems: "center",
     justifyContent: "center"
@@ -38,6 +38,10 @@ export const cardStyles = makeStyles((theme) => ({
     cursor: "pointer",
     "&:hover": {
       border: "2px solid orange"
+    },
+    "&.big": {
+      width: "100px",
+      height: "140px"
     }
   },
   content: {
@@ -46,5 +50,9 @@ export const cardStyles = makeStyles((theme) => ({
   image: {
     width: "50px", 
     height: "75px", 
+    "&.big": {
+      width: "100px",
+      height: "140px"
+    }
   }
 }));

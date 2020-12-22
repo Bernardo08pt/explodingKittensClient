@@ -15,6 +15,7 @@ import { reorderArrayFromPosition } from '../../utils/helperFunctions';
 import { events } from '../../socketProvider/assets/events';
 import { Card as CardType } from './assets/types';
 import PlayingCard from './PlayingCard';
+import { Typography } from '@material-ui/core';
 
 interface Props {
     roomId: string;
@@ -87,12 +88,20 @@ const GameArea: React.FC<Props> = ({
                     /> 
                 }
             </Grid>
-            <Grid item xs={6} >
-                <Box className={classes.deckArea} onClick={handleDrawCard}>
+            <Grid item xs={3} >
+                <Box className={classes.deckArea} >
                     {gameState.discardPile.length > 0 && 
-                        <PlayingCard card={gameState.discardPile[gameState.discardPile.length - 1]} />
+                        <>
+                            <Typography variant={"h5"}>{`Discard Pile: ${gameState.discardPile.length}`}</Typography>
+                            <PlayingCard size={"big"} card={gameState.discardPile[gameState.discardPile.length - 1]} />
+                        </>
                     }
-                    <FacedownCard cards={gameState.cardsRemaining} />
+                </Box>
+            </Grid>
+            <Grid item xs={3} >
+                <Box className={classes.deckArea} onClick={handleDrawCard}>
+                    <Typography variant={"h5"}>{`Deck Cards: ${gameState.cardsRemaining}`}</Typography>
+                    <FacedownCard size={"big"}/>
                 </Box>
             </Grid>
             <Grid item xs={3} className={classes.playerArea}>
