@@ -74,6 +74,7 @@ const GameArea: React.FC<Props> = ({
                     <OpponentArea 
                         player={playerSitOrder[2]} 
                         isPlaying={playerSitOrder[2].username === gameState.playerTurn}
+                        numberOfTurns={gameState.numberOfTurns}
                     /> 
                 }
             </Grid>
@@ -82,6 +83,7 @@ const GameArea: React.FC<Props> = ({
                     <OpponentArea 
                         player={playerSitOrder[1]} 
                         isPlaying={playerSitOrder[1].username === gameState.playerTurn}
+                        numberOfTurns={gameState.numberOfTurns}
                     /> 
                 }
             </Grid>
@@ -98,6 +100,7 @@ const GameArea: React.FC<Props> = ({
                     <OpponentArea 
                         player={playerSitOrder[3]} 
                         isPlaying={playerSitOrder[3].username === gameState.playerTurn}
+                        numberOfTurns={gameState.numberOfTurns}
                     /> 
                 }
             </Grid>
@@ -108,6 +111,7 @@ const GameArea: React.FC<Props> = ({
                         player={playerSitOrder[0]} 
                         isPlaying={youArePlaying}
                         onPlayCard={handlePlayCard}
+                        numberOfTurns={gameState.numberOfTurns}
                     /> 
                 }
             </Grid>

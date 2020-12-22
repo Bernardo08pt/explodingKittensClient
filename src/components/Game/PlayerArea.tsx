@@ -15,6 +15,7 @@ interface Props {
     player: Player;
     roomId: string;
     isPlaying: boolean;
+    numberOfTurns: number;
     onPlayCard: (card: Card) => void;
 }
 
@@ -22,6 +23,7 @@ const PlayerArea: React.FC<Props> = ({
     player,
     roomId,
     isPlaying,
+    numberOfTurns,
     onPlayCard
 }) => {
     const classes = playerAreaStyles();
@@ -55,6 +57,7 @@ const PlayerArea: React.FC<Props> = ({
             </Grid>
             <Grid item xs={12} className={classes.title}>
                 <Typography variant={"h6"}>{username}</Typography>
+                <Typography variant={"h6"}>{`Number of turns remaining: ${isPlaying ? numberOfTurns : 0}`}</Typography>
             </Grid>
         </Grid>
     )

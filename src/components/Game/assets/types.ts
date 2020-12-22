@@ -3,6 +3,7 @@ export interface GameState {
     discardPile: Array<Card>;
     players: Array<Player>;
     playerTurn: string;
+    numberOfTurns: number;
 }
 
 export interface Player {

@@ -12,11 +12,13 @@ import { Player } from './assets/types';
 interface Props {
     player: Player;
     isPlaying: boolean;
+    numberOfTurns: number;
 }
 
 const OpponentArea: React.FC<Props> = ({
     player,
-    isPlaying
+    isPlaying,
+    numberOfTurns
 }) => {
     const classes = playerAreaStyles();
     const { username, cards } = player;
@@ -25,6 +27,7 @@ const OpponentArea: React.FC<Props> = ({
         <Grid container className={isPlaying ? classes.playing : ""}>
             <Grid item xs={12} className={classes.title}>
                 <Typography variant={"h6"}>{username}</Typography>
+                <Typography variant={"h6"}>{`Number of turns remaining: ${isPlaying ? numberOfTurns : 0}`}</Typography>
             </Grid>
             <Grid item xs={12}>
                 <Box className={classes.cardTray}>
