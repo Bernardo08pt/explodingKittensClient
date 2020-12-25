@@ -1,6 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const gameAreaStyles = makeStyles((theme) => ({
+  informationBar: {
+    marginTop: "10px", 
+    justifyContent: "center", 
+    fontWeight: "bold"
+  },
   deckArea: {
     height: "100%", 
     flexDirection: "column", 

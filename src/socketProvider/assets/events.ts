@@ -20,4 +20,5 @@ export const events = {
     UPDATE_GAME_STATE: "updateGameState",
     DRAW_CARD: "drawCard",
     PLAY_CARD: "playCard",
+    SAW_THE_FUTURE: "sawTheFuture"
 }
